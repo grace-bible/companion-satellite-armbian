@@ -40,10 +40,11 @@ jobs:
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
           
-      - name: Cache PlatformIO
+      - name: Cache armbian build cache
         uses: actions/cache@v3
         with:
           path: ./build/cache
+          key: armbian
           
       - name: Build Armbian
         id: build
