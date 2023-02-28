@@ -39,16 +39,22 @@ jobs:
       - name: Download source code
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
+          
+      - name: Cache PlatformIO
+        uses: actions/cache@v3
+        with:
+          path: ./build/cache
+          
       - name: Build Armbian
         id: build
         run: |
           cd build
           ./compile.sh BUILD_MINIMAL=$BUILD_MINIMAL KERNEL_ONLY=$KERNEL_ONLY KERNEL_CONFIGURE=$KERNEL_CONFIGURE BOARD=$BOARD BRANCH=$BRANCH RELEASE=$RELEASE BUILD_DESKTOP=$BUILD_DESKTOP COMPRESS_OUTPUTIMAGE=$COMPRESS_OUTPUTIMAGE
-          echo "::set-output name=status::success"
-          tar -cjvf /tmp/Armbian.tar.bz2 output/images/*.img
+          echo "status::success" >> $GITHUB_OUTPUT
+          
       - name: Upload Armbian image
         uses: actions/upload-artifact@master
         if: steps.build.outputs.status == 'success'
         with:
           name: Armbian_firmware
-          path: /tmp/Armbian.tar.bz2
+          path: output/images/*
