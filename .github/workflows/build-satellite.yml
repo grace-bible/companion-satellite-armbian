@@ -51,11 +51,9 @@ jobs:
         run: |
           cd build
           ./compile.sh BUILD_MINIMAL=$BUILD_MINIMAL KERNEL_ONLY=$KERNEL_ONLY KERNEL_CONFIGURE=$KERNEL_CONFIGURE BOARD=$BOARD BRANCH=$BRANCH RELEASE=$RELEASE BUILD_DESKTOP=$BUILD_DESKTOP COMPRESS_OUTPUTIMAGE=$COMPRESS_OUTPUTIMAGE
-          echo "status::success" >> $GITHUB_OUTPUT
           
       - name: Upload Armbian image
-        uses: actions/upload-artifact@master
-        if: steps.build.outputs.status == 'success'
+        uses: actions/upload-artifact@v3
         with:
           name: Armbian_firmware
           path: output/images/*
