@@ -25,7 +25,7 @@ env:
   KERNEL_ONLY: no
   KERNEL_CONFIGURE: no
   BOARD: orangepilite
-  BRANCH: edge
+  BRANCH: legacy
   RELEASE: jammy
   BUILD_DESKTOP: no
   COMPRESS_OUTPUTIMAGE: sha,img
