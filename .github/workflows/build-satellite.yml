@@ -1,0 +1,56 @@
+name: build-satellite
+
+on:
+  workflow_dispatch:
+    inputs:
+      companion-host:
+        type: string
+        description: Companion IP/Hostname
+        default: '192.168.0.5'
+        required: true
+      companion-port:
+        type: string
+        description: Companion Port
+        default: '16622'
+        required: true
+      armbian-board:
+        type: choice
+        description: Armbian Board
+        options: 
+        - 'orangepizero2'
+        default: 'orangepizero2'
+
+env:
+  BUILD_MINIMAL: yes
+  KERNEL_ONLY: no
+  KERNEL_CONFIGURE: no
+  BOARD: orangepilite
+  BRANCH: current
+  RELEASE: jammy
+  BUILD_DESKTOP: no
+  COMPRESS_OUTPUTIMAGE: sha,img
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download source code
+        run: |
+          curl -L -o armbian.tar.gz $(curl https://api.github.com/repos/armbian/build/releases | awk -F"[tarball_url]" '/tarball_url/{print $x}' | grep $RELEASE_SOURCE_TAG | sed 's/"//g' | sed 's/tarball_url://g' | sed 's/ //g' | sed 's/,//g')
+          tar -xzf armbian.tar.gz
+          rm -rf armbian.tar.gz
+      - name: Build Armbian
+        id: build
+        run: |
+          cd armbian-build*
+          sudo -E ./compile.sh BUILD_MINIMAL=$BUILD_MINIMAL KERNEL_ONLY=$KERNEL_ONLY KERNEL_CONFIGURE=$KERNEL_CONFIGURE BOARD=$BOARD BRANCH=$BRANCH RELEASE=$RELEASE BUILD_DESKTOP=$BUILD_DESKTOP COMPRESS_OUTPUTIMAGE=$COMPRESS_OUTPUTIMAGE FORCE_USE_RAMDISK=yes USE_CCACHE=yes
+          echo "::set-output name=status::success"
+          tar -cjvf /tmp/Armbian.tar.bz2 output/images/*.img
+      - name: Upload Armbian image
+        uses: actions/upload-artifact@master
+        if: steps.build.outputs.status == 'success'
+        with:
+          name: Armbian_firmware
+          path: /tmp/Armbian.tar.bz2
