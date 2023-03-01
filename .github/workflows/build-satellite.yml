@@ -1,4 +1,4 @@
-name: Build/release
+name: Build armbian + companion satellite
 
 on:
   workflow_dispatch:
