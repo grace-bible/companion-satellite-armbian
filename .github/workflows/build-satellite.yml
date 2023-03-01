@@ -1,4 +1,4 @@
-name: build-satellite
+name: Build/release
 
 on:
   workflow_dispatch:
@@ -13,41 +13,48 @@ on:
         description: Companion Port
         default: '16622'
         required: true
-      armbian-board:
-        type: choice
-        description: Armbian Board
-        options: 
-        - 'orangepizero2'
-        default: 'orangepizero2'
-
-env:
-  BUILD_MINIMAL: yes
-  KERNEL_ONLY: no
-  KERNEL_CONFIGURE: no
-  BOARD: orangepilite
-  BRANCH: legacy
-  RELEASE: jammy
-  BUILD_DESKTOP: no
-  COMPRESS_OUTPUTIMAGE: sha,img
+      armbian-url:
+        type: string
+        description: Armbian FW URL (Ubuntu minimal)
+        default: 'http://xogium.performanceservers.nl/archive/orangepizero2/archive/Armbian_22.11.3_Orangepizero2_jammy_edge_6.1.4_minimal.img.xz'
 
 jobs:
-  build:
+  pi-img:
     runs-on: ubuntu-latest
+    name: build image
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Download source code
+      - name: install packer
         run: |
-          git clone --depth=1 --branch=main https://github.com/armbian/build
-          
-      - name: Build Armbian
-        id: build
+          curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-get update && sudo apt-get install -y packer
+
+      - name: build image
         run: |
-          cd build
-          ./compile.sh BUILD_MINIMAL=$BUILD_MINIMAL KERNEL_ONLY=$KERNEL_ONLY KERNEL_CONFIGURE=$KERNEL_CONFIGURE BOARD=$BOARD BRANCH=$BRANCH RELEASE=$RELEASE BUILD_DESKTOP=$BUILD_DESKTOP COMPRESS_OUTPUTIMAGE=$COMPRESS_OUTPUTIMAGE
-          
+          git clone https://github.com/bitfocus/companion-satellite.git
+          cd companion-satellite/pi-image
+          sudo packer init ../../companion-satellite.pkr.hcl
+          sudo packer build --var branch=${GITHUB_REF_NAME} ../../companion-satellite.pkr.hcl
+        env:
+          PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: compress image
+        shell: bash
+        run: |
+          cd companion-satellite/pi-image/output-satellitepi
+
+          sudo apt-get install -y zerofree
+          device="$(sudo losetup --partscan --show --find image)"
+          sudo zerofree "${device}p2"
+          sudo losetup --detach "$device"
+
+          sudo gzip -n image
+
       - name: Upload Armbian image
         uses: actions/upload-artifact@v3
         with:
           name: Armbian_firmware
-          path: ./build/output/images/*
+          path: companion-satellite/pi-image/output-satellitepi/image.gz
