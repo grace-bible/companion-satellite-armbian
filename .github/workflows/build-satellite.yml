@@ -37,9 +37,7 @@ jobs:
           git clone https://github.com/bitfocus/companion-satellite.git
           cd companion-satellite/pi-image
           sudo packer init ../../companion-satellite.pkr.hcl
-          sudo packer build --var branch=${GITHUB_REF_NAME} ../../companion-satellite.pkr.hcl
-        env:
-          PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          sudo packer build ../../companion-satellite.pkr.hcl
 
       - name: compress image
         shell: bash
