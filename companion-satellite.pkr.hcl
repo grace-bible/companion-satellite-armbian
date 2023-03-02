@@ -20,7 +20,9 @@ variable "url" {
 source "arm-image" "satellitepi" {
   iso_checksum              = "sha256:3cd9574a6e7facd6fc37665a701dc079d0f05ed2ad22e6d0ed8919c224a7e00f"
   iso_url                   = var.url
-  last_partition_extra_size = 2147483648
+  #last_partition_extra_size = 1000000000
+  target_image_size= 4000000000
+  output_filename = "output-satellitepi/armbian-companion-satellite.img"
   qemu_binary               = "qemu-aarch64-static"
   image_mounts              = ["/"]
 }

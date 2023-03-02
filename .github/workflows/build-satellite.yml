@@ -49,10 +49,10 @@ jobs:
           sudo zerofree "${device}p1"
           sudo losetup --detach "$device"
 
-          sudo gzip -n image
+          sudo gzip -n armbian-companion-satellite.img
 
       - name: Upload Armbian image
         uses: actions/upload-artifact@v3
         with:
           name: Armbian_firmware
-          path: companion-satellite/pi-image/output-satellitepi/image.gz
+          path: companion-satellite/pi-image/output-satellitepi/armbian-companion-satellite.img.gz
