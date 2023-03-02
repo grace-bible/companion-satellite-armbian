@@ -45,7 +45,7 @@ jobs:
           cd companion-satellite/pi-image/output-satellitepi
 
           sudo apt-get install -y zerofree
-          device="$(sudo losetup --partscan --show --find image)"
+          device="$(sudo losetup --partscan --show --find armbian-companion-satellite.img)"
           sudo zerofree "${device}p1"
           sudo losetup --detach "$device"
 
