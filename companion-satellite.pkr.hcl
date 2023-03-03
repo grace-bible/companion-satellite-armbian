@@ -18,7 +18,7 @@ variable "url" {
 }
 
 source "arm-image" "satellitepi" {
-  iso_checksum              = "sha256:3cd9574a6e7facd6fc37665a701dc079d0f05ed2ad22e6d0ed8919c224a7e00f"
+  iso_checksum              = "none"
   iso_url                   = var.url
   target_image_size         = 4000000000
   output_filename           = "output-satellitepi/armbian-companion-satellite.img"
