@@ -36,9 +36,8 @@ jobs:
 
       - name: build image
         run: |
-          cd companion-satellite/pi-image
-          sudo packer init ../../companion-satellite.pkr.hcl
-          sudo packer build ../../companion-satellite.pkr.hcl
+          sudo packer init companion-satellite.pkr.hcl
+          sudo packer build companion-satellite.pkr.hcl
 
       - name: compress image
         shell: bash
