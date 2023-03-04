@@ -42,7 +42,7 @@ jobs:
       - name: compress image
         shell: bash
         run: |
-          cd companion-satellite/pi-image/output-satellitepi
+          cd output-satellitepi
 
           sudo apt-get install -y zerofree
           device="$(sudo losetup --partscan --show --find armbian-companion-satellite.img)"
@@ -55,4 +55,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Armbian_firmware
-          path: companion-satellite/pi-image/output-satellitepi/armbian-companion-satellite.img.gz
+          path: output-satellitepi/armbian-companion-satellite.img.gz
