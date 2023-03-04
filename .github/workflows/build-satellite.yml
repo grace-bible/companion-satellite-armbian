@@ -3,16 +3,6 @@ name: Build armbian + companion satellite
 on:
   workflow_dispatch:
     inputs:
-      companion-host:
-        type: string
-        description: Companion IP/Hostname
-        default: '192.168.0.5'
-        required: true
-      companion-port:
-        type: string
-        description: Companion Port
-        default: '16622'
-        required: true
       armbian-url:
         type: string
         description: Armbian FW URL (Ubuntu minimal)
@@ -36,6 +26,7 @@ jobs:
 
       - name: build image
         run: |
+          export PKR_VAR_url="${{ github.event.inputs.armbian-url }}"
           sudo packer init companion-satellite.pkr.hcl
           sudo packer build companion-satellite.pkr.hcl
 
@@ -50,9 +41,11 @@ jobs:
           sudo losetup --detach "$device"
 
           sudo gzip -n armbian-companion-satellite.img
+          targetname=armbian-companion-satellite-${{ github.run_number }}-${DATE}.img.gz
+          sudo mv armbian-companion-satellite.img.gz ${targetname}
 
       - name: Upload Armbian image
         uses: actions/upload-artifact@v3
         with:
           name: Armbian_firmware
-          path: output-satellitepi/armbian-companion-satellite.img.gz
+          path: output-satellitepi/*

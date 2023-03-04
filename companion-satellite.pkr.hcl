@@ -14,7 +14,7 @@ variable "branch" {
 
 variable "url" {
   type    = string
-  default = "https://armbian.tnahosting.net/archive/orangepizero2/archive/Armbian_22.05.3_Orangepizero2_jammy_edge_5.17.11.img.xz"
+  default = ""
 }
 
 source "arm-image" "satellitepi" {
