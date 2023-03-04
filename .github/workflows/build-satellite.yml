@@ -26,9 +26,8 @@ jobs:
 
       - name: build image
         run: |
-          export PKR_VAR_url="${{ github.event.inputs.armbian-url }}"
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build companion-satellite.pkr.hcl
+          sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" companion-satellite.pkr.hcl
 
       - name: compress image
         shell: bash
