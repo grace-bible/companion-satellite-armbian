@@ -28,6 +28,8 @@ jobs:
         run: |
           sudo packer init companion-satellite.pkr.hcl
           sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" companion-satellite.pkr.hcl
+        env:
+          PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: compress image
         shell: bash
