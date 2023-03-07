@@ -2,10 +2,6 @@ name: Build matrix
 
 on:
   workflow_dispatch:
-    inputs:
-      armbian-url:
-        type: string
-        description: Armbian FW URL (Ubuntu minimal)
 
 jobs:
   build:
@@ -51,5 +47,5 @@ jobs:
       - name: Upload Armbian image
         uses: actions/upload-artifact@v3
         with:
-          name: Armbian_firmware
+          name: Armbian_firmware-${{ matrix.url }}
           path: output-satellitepi/*
