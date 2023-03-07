@@ -42,8 +42,8 @@ jobs:
           sudo losetup --detach "$device"
 
           sudo gzip -n armbian-companion-satellite.img
-          DATE=$(date +"%d-%m-%y")
-          targetname=armbian-companion-satellite-${{ github.run_number }}-${DATE}.img.gz
+          DATE=$(date +"%Y-%m-%d")
+          targetname=armbian-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
           sudo mv armbian-companion-satellite.img.gz ${targetname}
 
       - name: Upload Armbian image
