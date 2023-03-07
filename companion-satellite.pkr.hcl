@@ -44,7 +44,7 @@ build {
       "adduser --disabled-password satellite --gecos \"\"",
 
       # install some dependencies
-      "apt-get update",
+      "apt-get update -yqq && apt-get upgrade -yqq",
       "apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++ libusb-1.0-0-dev libudev-dev cmake",
       "apt-get clean",
     ]
