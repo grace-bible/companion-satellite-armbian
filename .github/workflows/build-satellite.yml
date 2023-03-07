@@ -10,7 +10,7 @@ on:
 
 jobs:
   pi-img:
-    runs-on: self-hosted
+    runs-on: ubuntu:latest
     name: build image
     steps:
       - name: Checkout Repository
@@ -21,7 +21,7 @@ jobs:
       - name: install packer
         run: |
           curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-          sudo apt-add-repository "deb [arch=arm64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
           sudo apt-get update && sudo apt-get install -y packer
 
       - name: build image
