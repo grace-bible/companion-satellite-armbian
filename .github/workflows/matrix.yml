@@ -41,12 +41,13 @@ jobs:
           sudo losetup --detach "$device"
 
           sudo gzip -n armbian-companion-satellite.img
+          originalname=$(basename ${{ matrix.url }} .img.xz)
           DATE=$(date +"%Y-%m-%d")
-          targetname=armbian-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
+          targetname=${originalname}-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
           sudo mv armbian-companion-satellite.img.gz ${targetname}
 
       - name: Upload Armbian image
         uses: actions/upload-artifact@v3
         with:
-          name: Armbian_firmware-${{ matrix.url }}
+          name: Armbian_firmware
           path: output-satellitepi/*
