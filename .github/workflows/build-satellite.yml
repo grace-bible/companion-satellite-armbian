@@ -10,7 +10,7 @@ on:
 
 jobs:
   pi-img:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
     name: build image
     steps:
       - name: Checkout Repository
