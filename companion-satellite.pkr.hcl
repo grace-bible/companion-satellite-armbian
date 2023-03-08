@@ -20,7 +20,7 @@ variable "url" {
 source "arm-image" "satellitepi" {
   iso_checksum              = "none"
   iso_url                   = var.url
-  target_image_size         = 4000000000
+  target_image_size         = 5000000000
   output_filename           = "output-satellitepi/armbian-companion-satellite.img"
   qemu_binary               = "qemu-aarch64-static"
   image_mounts              = ["/"]
