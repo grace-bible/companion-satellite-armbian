@@ -45,7 +45,7 @@ build {
 
       # install some dependencies
       "apt-get update -yq",
-      "apt-mark hold openssh-server",
+      "apt-mark hold openssh-server armbian-bsp-cli-orangepizero2 armbian-config armbian-firmware armbian-zsh",
       "apt-get upgrade -yq --option=Dpkg::Options::=--force-confdef",
       "apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++ libusb-1.0-0-dev libudev-dev cmake",
       "apt-get clean",
