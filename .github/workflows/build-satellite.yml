@@ -6,7 +6,7 @@ on:
       armbian-url:
         type: string
         description: Armbian FW URL (Ubuntu minimal)
-        default: 'http://xogium.performanceservers.nl/archive/orangepizero2/archive/Armbian_22.11.3_Orangepizero2_jammy_edge_6.1.4_minimal.img.xz'
+        default: 'https://armbian.tnahosting.net/archive/orangepizero2/archive/Armbian_22.11.3_Orangepizero2_jammy_legacy_4.9.318.img.xz'
 
 jobs:
   pi-img:
@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-        with:
-          submodules: 'true'
 
       - name: install packer
         run: |
@@ -42,8 +40,9 @@ jobs:
           sudo losetup --detach "$device"
 
           sudo gzip -n armbian-companion-satellite.img
+          originalname=$(basename ${{ github.event.inputs.armbian-url }} .img.xz)
           DATE=$(date +"%Y-%m-%d")
-          targetname=armbian-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
+          targetname=${originalname}-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
           sudo mv armbian-companion-satellite.img.gz ${targetname}
 
       - name: Upload Armbian image
