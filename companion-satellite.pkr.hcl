@@ -79,7 +79,7 @@ build {
       "systemctl enable satellite",
 
 			# copy config file into place
-			"cp ./pi-image/satellite-config /boot/satellite-config"
+			#"cp ./pi-image/satellite-config /boot/satellite-config"
     ]
   }
 
