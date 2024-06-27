@@ -44,3 +44,4 @@ build {
       "curl https://raw.githubusercontent.com/bitfocus/companion-satellite/main/pi-image/install.sh | bash"
     ]
   }
+}
