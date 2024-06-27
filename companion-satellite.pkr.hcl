@@ -9,7 +9,7 @@ packer {
 
 variable "branch" {
   type    = string
-  default = "master"
+  default = "main"
 }
 
 variable "url" {
