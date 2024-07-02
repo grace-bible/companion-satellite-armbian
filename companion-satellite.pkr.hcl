@@ -14,7 +14,7 @@ variable "url" {
 
 variable "branch" {
   type    = string
-  default = "main"
+  default = "stable"
 }
 
 variable "build" {
