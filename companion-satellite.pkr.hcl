@@ -12,6 +12,16 @@ variable "url" {
   default = ""
 }
 
+variable "branch" {
+  type    = string
+  default = "main"
+}
+
+variable "build" {
+  type    = string
+  default = "stable"
+}
+
 source "arm-image" "satellitepi" {
   iso_checksum              = "none"
   iso_url                   = var.url
@@ -23,6 +33,11 @@ source "arm-image" "satellitepi" {
 
 build {
   sources = ["source.arm-image.satellitepi"]
+
+  provisioner "file" {
+    source = "companion-satellite/pi-image/install.sh"
+    destination = "/tmp/install.sh"
+  }
 
   provisioner "shell" {
     #system setup
@@ -41,7 +56,21 @@ build {
       "apt-get upgrade -yq --option=Dpkg::Options::=--force-confdef",
       "apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++ libusb-1.0-0-dev libudev-dev cmake",
       "apt-get clean",
-      "curl https://raw.githubusercontent.com/bitfocus/companion-satellite/main/pi-image/install.sh | bash"
     ]
   }
+
+  provisioner "shell" {
+    # run as root
+    execute_command = "chmod +x {{ .Path }}; {{ .Vars }} su root -c {{ .Path }}"
+    inline_shebang  = "/bin/bash -e"
+    inline = [
+      
+			# run the script
+      "export SATELLITE_BRANCH=${var.branch}",
+      "export SATELLITE_BUILD=${var.build}",
+      "chmod +x /tmp/install.sh",
+      "/tmp/install.sh"
+    ]
+  }
+
 }
