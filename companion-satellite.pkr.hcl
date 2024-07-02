@@ -68,6 +68,8 @@ build {
 			# run the script
       "export SATELLITE_BRANCH=${var.branch}",
       "export SATELLITE_BUILD=${var.build}",
+      "echo $SATELLITE_BRANCH",
+      "echo $SATELLITE_BUILD",
       "chmod +x /tmp/install.sh",
       "/tmp/install.sh"
     ]
