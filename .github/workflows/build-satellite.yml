@@ -35,7 +35,7 @@ jobs:
       - name: build image
         run: |
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" -var "build=${{ github.event.inputs.satellite-build }} companion-satellite.pkr.hcl
+          sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
         env:
           PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
