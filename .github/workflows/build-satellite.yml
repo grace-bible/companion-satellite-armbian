@@ -7,6 +7,14 @@ on:
         type: string
         description: Armbian FW URL (Ubuntu minimal)
         default: 'https://armbian.tnahosting.net/archive/orangepizero2/archive/Armbian_22.11.3_Orangepizero2_jammy_legacy_4.9.318.img.xz'
+      satellite-build:
+        type: choice
+        description: Companion Satellite build
+        default: 'stable'
+        required: true
+        options:
+          - stable
+          - beta
 
 jobs:
   pi-img:
@@ -31,7 +39,7 @@ jobs:
       - name: build image
         run: |
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" companion-satellite.pkr.hcl
+          sudo packer build -var "url=${{ github.event.inputs.armbian-url }}" -var "build=${{ github.event.inputs.satellite-build }} companion-satellite.pkr.hcl
         env:
           PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
