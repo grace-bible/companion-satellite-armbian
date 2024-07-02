@@ -6,7 +6,7 @@ on:
       armbian-url:
         type: string
         description: Armbian FW URL (Ubuntu minimal)
-        default: 'https://armbian.tnahosting.net/archive/orangepizero2/archive/Armbian_22.11.3_Orangepizero2_jammy_legacy_4.9.318.img.xz'
+        default: 'https://xogium.performanceservers.nl/archive/orangepizero2/archive/Armbian_23.5.2_Orangepizero2_bookworm_legacy_4.9.318.img.xz'
       satellite-build:
         type: string
         description: Version
