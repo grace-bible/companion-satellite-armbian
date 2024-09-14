@@ -10,7 +10,7 @@ on:
       satellite-build:
         type: string
         description: Version
-        default: 'v1.8.1'
+        default: 'v1.9.1'
         required: true
 
 jobs:
