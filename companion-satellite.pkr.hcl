@@ -46,7 +46,7 @@ build {
       # "touch /boot/ssh",
 
       # Disable first-login script
-      "rm /root/.not_logged_in_yet",
+      # "rm /root/.not_logged_in_yet",
 
       # change the hostname
       "CURRENT_HOSTNAME=`cat /etc/hostname | tr -d \" \t\n\r\"`",
@@ -54,8 +54,8 @@ build {
       "sed -i \"s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\tcompanion-satellite/g\" /etc/hosts",
 
       # Some Armbian images don't have NTP installed by default, needed for apt
-      "cat /etc/resolv.conf",
-      "ping 8.8.8.8",
+      #"cat /etc/resolv.conf",
+      #"ping 8.8.8.8",
       "apt install ntp -yqq",
       "service ntp restart",
 
