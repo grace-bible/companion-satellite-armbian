@@ -259,6 +259,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Armbian
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+          
       - name: Build Armbian
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
@@ -280,11 +285,6 @@ jobs:
         with:
           name: armbian
           path: build/output/images/*.img
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
 
       - name: install packer
         run: |
