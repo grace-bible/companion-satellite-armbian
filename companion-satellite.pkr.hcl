@@ -53,6 +53,10 @@ build {
       "echo companion-satellite > /etc/hostname",
       "sed -i \"s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\tcompanion-satellite/g\" /etc/hosts",
 
+      # Some Armbian images don't have NTP installed by default, needed for apt
+      "sudo apt install ntp",
+      "sudo service ntp restart",
+
       # install some dependencies
       "apt-get update -yq",
       "apt-mark hold openssh-server armbian-bsp-cli-orangepizero2 armbian-config armbian-firmware armbian-zsh",
