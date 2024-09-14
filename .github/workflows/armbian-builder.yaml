@@ -284,7 +284,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: armbian
-          path: build/output/images/*.img
+          path: build/output/images/*.img build/output/images/armbian.img
+          
+      - name: rename file
+        run: |
+          mv build/output/images/*.img 
 
       - name: install packer
         run: |
@@ -295,7 +299,7 @@ jobs:
       - name: build image
         run: |
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build -var "url=build/output/images/*.img" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
+          sudo packer build -var "url=build/output/images/armbian.img" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
         env:
           PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
