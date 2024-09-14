@@ -54,10 +54,10 @@ build {
       "sed -i \"s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\tcompanion-satellite/g\" /etc/hosts",
 
       # Some Armbian images don't have NTP installed by default, needed for apt
-      "apt install ntp -yqq",
-      "service ntp restart",
       "cat /etc/resolv.conf",
       "ping 8.8.8.8",
+      "apt install ntp -yqq",
+      "service ntp restart",
 
       # install some dependencies
       "apt-get update -yq",
