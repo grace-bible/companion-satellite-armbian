@@ -279,12 +279,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: armbian
-          path: ./build/output/test/code-coverage.html
-          
-  pi-img:
-    runs-on: ubuntu-latest
-    name: build image
-    steps:
+          path: build/output/images/*.img
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -299,7 +295,7 @@ jobs:
       - name: build image
         run: |
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build -var "url=./output" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
+          sudo packer build -var "url=build/output/images/*.img" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
         env:
           PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
