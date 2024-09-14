@@ -55,11 +55,11 @@ build {
 
       # Some Armbian images don't have NTP installed by default, needed for apt
       #"cat /etc/resolv.conf",
-      "ip a",
-      "ping -c 4 8.8.8.8",
-      "ping -c 4 google.com",
-      "apt install ntp -yqq",
-      "service ntp restart",
+      #"ip a",
+      #"ping -c 4 8.8.8.8",
+      #"ping -c 4 google.com",
+      #"apt install ntp -yqq",
+      #"service ntp restart",
 
       # install some dependencies
       "apt-get update -yq",
