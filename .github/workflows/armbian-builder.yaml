@@ -284,11 +284,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: armbian
-          path: build/output/images/*.img build/output/images/armbian.img
+          path: build/output/images/*.img
           
       - name: rename file
         run: |
-          mv build/output/images/*.img 
+          mv build/output/images/*.img build/output/images/armbian.img
 
       - name: install packer
         run: |
