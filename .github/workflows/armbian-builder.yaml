@@ -12,6 +12,7 @@ on:
       armbian_board:
         type: choice
         description: 'Board'
+        default: 'orangepizero3'
         options:
         - aml-a311d-cc
         - aml-s905d3-cc
@@ -268,6 +269,7 @@ jobs:
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
           ./build/compile.sh \
+          EXPERT=yes \
           BOARD=${{ github.event.inputs.armbian_board }} \
           BRANCH=current \
           RELEASE=jammy \
