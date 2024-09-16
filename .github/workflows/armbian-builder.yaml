@@ -9,7 +9,7 @@ on:
         default: 'v1.9.1'
         required: true
 
-      armbian_board:
+      armbian-board:
         type: choice
         description: 'Board'
         default: 'orangepizero3'
@@ -269,7 +269,7 @@ jobs:
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
           ./build/compile.sh \
-          BOARD=${{ github.event.inputs.armbian_board }} \
+          BOARD=${{ github.event.inputs.armbian-board }} \
           BRANCH=current \
           RELEASE=noble \
           BUILD_MINIMAL=yes \
