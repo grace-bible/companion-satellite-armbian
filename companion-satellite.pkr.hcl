@@ -44,6 +44,9 @@ build {
   provisioner "shell" {
     #system setup
     inline = [
+      # disable ssh
+      "sudo systemctl disable sshd",
+
       # Disable first-login script
       "rm /root/.not_logged_in_yet",
 
