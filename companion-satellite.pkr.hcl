@@ -22,17 +22,19 @@ variable "build" {
   default = "stable"
 }
 
-source "arm-image" "satellitepi" {
+source "arm-image" "armbian" {
   iso_checksum              = "none"
   iso_url                   = var.url
   target_image_size         = 5000000000
   output_filename           = "output-satellitepi/armbian-companion-satellite.img"
   qemu_binary               = "qemu-aarch64-static"
   image_mounts              = ["/"]
+  # needed on newer Armbian images for DNS to work for some reason, no resolv-conf option seems to work
+  additional_chroot_mounts  = [["bind", "/run/systemd", "/run/systemd"]]
 }
 
 build {
-  sources = ["source.arm-image.satellitepi"]
+  sources = ["source.arm-image.armbian"]
 
   provisioner "file" {
     source = "companion-satellite/pi-image/install.sh"
@@ -53,20 +55,12 @@ build {
       "echo companion-satellite > /etc/hostname",
       "sed -i \"s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\tcompanion-satellite/g\" /etc/hosts",
 
-      # Some Armbian images don't have NTP installed by default, needed for apt
-      #"cat /etc/resolv.conf",
-      #"ip a",
-      #"ping -c 4 8.8.8.8",
-      #"ping -c 4 google.com",
-      #"apt install ntp -yqq",
-      #"service ntp restart",
-
       # install some dependencies
-      "apt-get update -yq",
-      "apt-mark hold openssh-server armbian-bsp-cli-orangepizero2 armbian-config armbian-firmware armbian-zsh",
-      "apt-get upgrade -yq --option=Dpkg::Options::=--force-confdef",
-      "apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++ libusb-1.0-0-dev libudev-dev cmake",
-      "apt-get clean",
+      #"apt-get update -yq",
+      #"apt-mark hold openssh-server armbian-bsp-cli-orangepizero2 armbian-config armbian-firmware armbian-zsh",
+      #"apt-get upgrade -yq --option=Dpkg::Options::=--force-confdef",
+      #"apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++",
+      #"apt-get clean",
     ]
   }
 

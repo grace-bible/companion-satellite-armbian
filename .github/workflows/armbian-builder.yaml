@@ -269,7 +269,6 @@ jobs:
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
           ./build/compile.sh \
-          EXPERT=yes \
           BOARD=${{ github.event.inputs.armbian_board }} \
           BRANCH=current \
           RELEASE=jammy \
