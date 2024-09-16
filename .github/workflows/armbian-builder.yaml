@@ -273,13 +273,7 @@ jobs:
           BRANCH=current \
           RELEASE=jammy \
           BUILD_MINIMAL=yes \
-          KERNEL_CONFIGURE=no
-          
-      - name: Archive Armbian build
-        uses: actions/upload-artifact@v4
-        with:
-          name: armbian
-          path: build/output/images/*.img
+          KERNEL_CONFIGURE=no\
           
       - name: rename file
         run: |
