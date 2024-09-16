@@ -54,13 +54,6 @@ build {
       "CURRENT_HOSTNAME=`cat /etc/hostname | tr -d \" \t\n\r\"`",
       "echo companion-satellite > /etc/hostname",
       "sed -i \"s/127.0.1.1.*$CURRENT_HOSTNAME/127.0.1.1\tcompanion-satellite/g\" /etc/hosts",
-
-      # install some dependencies
-      #"apt-get update -yq",
-      #"apt-mark hold openssh-server armbian-bsp-cli-orangepizero2 armbian-config armbian-firmware armbian-zsh",
-      #"apt-get upgrade -yq --option=Dpkg::Options::=--force-confdef",
-      #"apt-get install -o Dpkg::Options::=\"--force-confold\" -yqq git unzip curl pkg-config make gcc g++",
-      #"apt-get clean",
     ]
   }
 
