@@ -12,6 +12,11 @@ variable "url" {
   default = ""
 }
 
+variable "checksum" {
+  type    = string
+  default = ""
+}
+
 variable "branch" {
   type    = string
   default = "stable"
@@ -23,7 +28,7 @@ variable "build" {
 }
 
 source "arm-image" "armbian" {
-  iso_checksum              = "none"
+  iso_checksum              = var.checksum
   iso_url                   = var.url
   target_image_size         = 5000000000
   output_filename           = "output-satellitepi/armbian-companion-satellite.img"
@@ -44,9 +49,6 @@ build {
   provisioner "shell" {
     #system setup
     inline = [
-      # # enable ssh
-      # "touch /boot/ssh",
-
       # Disable first-login script
       "rm /root/.not_logged_in_yet",
 
