@@ -303,8 +303,7 @@ jobs:
           sudo losetup --detach "$device"
 
           sudo gzip -n armbian-companion-satellite.img
-          DATE=$(date +"%Y-%m-%d")
-          targetname=${{ github.event.inputs.armbian-board }}-companion-satellite-${DATE}-${{ github.run_id }}.img.gz
+          targetname=${{ github.event.inputs.armbian-board }}-companion-satellite-${{ github.event.inputs.satellite-build }}.img.gz
           echo $targetname
           sudo mv armbian-companion-satellite.img.gz ${targetname}
 
