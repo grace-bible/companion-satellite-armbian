@@ -12,11 +12,6 @@ variable "url" {
   default = ""
 }
 
-variable "checksum" {
-  type    = string
-  default = ""
-}
-
 variable "branch" {
   type    = string
   default = "stable"

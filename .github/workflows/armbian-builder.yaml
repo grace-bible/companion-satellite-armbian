@@ -271,14 +271,13 @@ jobs:
           ./build/compile.sh \
           BOARD=${{ github.event.inputs.armbian_board }} \
           BRANCH=current \
-          RELEASE=jammy \
+          RELEASE=noble \
           BUILD_MINIMAL=yes \
           KERNEL_CONFIGURE=no\
           
       - name: rename file
         run: |
           mv build/output/images/*.img build/output/images/armbian.img
-          mv build/output/images/*.sha build/output/images/armbian.sha
 
       - name: install packer
         run: |
@@ -289,7 +288,7 @@ jobs:
       - name: build image
         run: |
           sudo packer init companion-satellite.pkr.hcl
-          sudo packer build -var "url=build/output/images/armbian.img" -var "checksum=build/output/images/armbian.sha" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
+          sudo packer build -var "url=build/output/images/armbian.img" -var "build=${{ github.event.inputs.satellite-build }}" companion-satellite.pkr.hcl
         env:
           PACKER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
