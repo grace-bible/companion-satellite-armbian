@@ -28,7 +28,7 @@ variable "build" {
 }
 
 source "arm-image" "armbian" {
-  iso_checksum              = var.checksum
+  iso_checksum              = none
   iso_url                   = var.url
   target_image_size         = 5000000000
   output_filename           = "output-satellitepi/armbian-companion-satellite.img"
