@@ -45,7 +45,7 @@ build {
     #system setup
     inline = [
       # disable ssh
-      "sudo systemctl disable sshd",
+      "sudo systemctl disable ssh",
 
       # Disable first-login script
       "rm /root/.not_logged_in_yet",
