@@ -45,6 +45,7 @@ build {
     #system setup
     inline = [
       # disable ssh
+      # TODO: This doesn't work for some reason
       "sudo systemctl disable ssh",
 
       # Disable first-login script
