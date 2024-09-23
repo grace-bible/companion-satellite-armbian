@@ -63,8 +63,7 @@ build {
     execute_command = "chmod +x {{ .Path }}; {{ .Vars }} su root -c {{ .Path }}"
     inline_shebang  = "/bin/bash -e"
     inline = [
-      
-			# run the script
+      # run the script
       "export SATELLITE_BRANCH=${var.branch}",
       "export SATELLITE_BUILD=${var.build}",
       "echo $SATELLITE_BRANCH",
