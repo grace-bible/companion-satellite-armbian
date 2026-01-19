@@ -262,7 +262,7 @@ jobs:
       - name: Build Armbian
         run: |
           git clone --depth=1 --branch=main https://github.com/armbian/build
-          ./build/compile.sh \
+          ./build/compile.sh build \
           BOARD=${{ github.event.inputs.armbian-board }} \
           BRANCH=current \
           RELEASE=noble \
