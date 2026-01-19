@@ -261,8 +261,9 @@ jobs:
           
       - name: Build Armbian
         run: |
-          git clone --depth=1 --branch=main https://github.com/armbian/build
-          ./build/compile.sh build \
+          sudo apt install qemu-user-static
+          git clone --depth=1 --branch=main https://github.com/armbian/build \
+          ./build/compile.sh \
           BOARD=${{ github.event.inputs.armbian-board }} \
           BRANCH=current \
           RELEASE=noble \
