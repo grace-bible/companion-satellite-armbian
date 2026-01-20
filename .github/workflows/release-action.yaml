@@ -1,0 +1,58 @@
+name: Build Select Boards on Companion Update via Renovate
+
+# Triggered when Renovate updates the Companion Satellite git submodule to a new tag.
+# Builds Armbian images for a selected set of boards with the updated Companion Satellite included, then generates a release with the new images attached.
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  get-satellite-version:
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'Update dependency companion-satellite')
+    runs-on: ubuntu-latest
+    outputs:
+      satellite_version: ${{ steps.get-version.outputs.satellite_version }}
+    steps:
+      - name: Get Satellite Version from pr title, including leading 'v'
+        id: get-version
+        run: |
+          title="${{ github.event.pull_request.title }}"
+          version="${title##* }"
+          echo "satellite_version=$version" >> $GITHUB_OUTPUT
+  build-matrix:
+    needs: get-satellite-version
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        armbian-board:
+          - orangepizero
+          - orangepizero2
+          - orangepizero2w
+          - orangepizero3
+    steps:
+      - name: Call Armbian Builder Workflow
+        uses: ./.github/workflows/armbian-builder.yaml
+        with:
+          armbian-board: ${{ matrix.armbian-board }}
+          satellite-build: ${{ needs.get-satellite-version.outputs.satellite_version }}
+  build-release:
+    needs: build-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Built Artifacts
+        uses: actions/download-artifact@v7
+        with:
+          pattern: "armbian-*"
+          merge-multiple: true
+          path: ./artifacts
+
+      - name: Create Release
+        id: create-release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: "companion-update-${{ needs.get-satellite-version.outputs.satellite_version }}"
+          release_name: "Companion Satellite Update ${{ needs.get-satellite-version.outputs.satellite_version }}"
+          artifacts: ./artifacts/*
+          generateReleaseNotes: true
