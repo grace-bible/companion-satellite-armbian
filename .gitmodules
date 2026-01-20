@@ -1,3 +1,4 @@
 [submodule "companion-satellite"]
 	path = companion-satellite
 	url = https://github.com/bitfocus/companion-satellite
+	branch = v2.2.0
