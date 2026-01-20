@@ -32,8 +32,13 @@ jobs:
           - orangepizero2w
           - orangepizero3
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+        with:
+          submodules: "true"
       - name: Call Armbian Builder Workflow
         uses: ./.github/workflows/armbian-builder.yaml
+        secrets: inherit
         with:
           armbian-board: ${{ matrix.armbian-board }}
           satellite-build: ${{ needs.get-satellite-version.outputs.satellite_version }}
