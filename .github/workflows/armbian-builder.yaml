@@ -1,6 +1,16 @@
 name: Build armbian + build companion satellite
 
 on:
+  workflow_call:
+    inputs:
+      satellite-build:
+        required: true
+        type: string
+    inputs:
+      armbian-board:
+        required: true
+        type: string
+
   workflow_dispatch:
     inputs:
       satellite-build:
@@ -313,5 +323,5 @@ jobs:
       - name: Upload Armbian image
         uses: actions/upload-artifact@v6
         with:
-          name: Armbian_firmware
+          name: "armbian-${{ github.event.inputs.armbian-board }}-companion-satellite-${{ github.event.inputs.satellite-build }}"
           path: output-satellitepi/*
