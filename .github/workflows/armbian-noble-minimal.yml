@@ -1,5 +1,8 @@
 name: Builds vanilla armbian image, for debugging
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
