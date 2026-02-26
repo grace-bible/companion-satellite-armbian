@@ -321,7 +321,7 @@ jobs:
           sudo mv armbian-companion-satellite.img.gz ${targetname}
 
       - name: Upload Armbian image
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: "armbian-${{ github.event.inputs.armbian-board }}-companion-satellite-${{ github.event.inputs.satellite-build }}"
           path: output-satellitepi/${{ github.event.inputs.armbian-board }}-companion-satellite-${{ github.event.inputs.satellite-build }}.img.gz

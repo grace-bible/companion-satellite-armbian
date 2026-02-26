@@ -274,7 +274,7 @@ jobs:
           KERNEL_CONFIGURE=no\
 
       - name: Upload Armbian image
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: Armbian_firmware
           path: build/output/images/*
